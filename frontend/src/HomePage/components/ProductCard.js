@@ -1,21 +1,27 @@
 import React from 'react'
 
 import { Card } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 import Rating from '../../shared/UI/Rating'
 
-const Product = ({ product }) => {
+const ProductCard = ({ product }) => {
   return (
     <>
       <Card style={{ width: '18rem' }} className='my-3 p-3 rounded'>
-        <a href={`product/${product._id}`}>
+        
+        <Link to={`product/${product._id}`}>
           <Card.Img variant='top' src={product.image} />
-        </a>
+        </Link>
+
         <Card.Body>
-          <a href={`product/${product._id}`} style={{ textDecoration: 'none' }}>
+          <Link
+            to={`product/${product._id}`}
+            style={{ textDecoration: 'none' }}
+          >
             <Card.Title as='div'>
               <b>{product.name}</b>
             </Card.Title>
-          </a>
+          </Link>
 
           <Card.Text as='div' className='my-3'>
             <Rating
@@ -25,9 +31,10 @@ const Product = ({ product }) => {
           </Card.Text>
           <Card.Text as='h3'>${product.price}</Card.Text>
         </Card.Body>
+
       </Card>
     </>
   )
 }
 
-export default Product
+export default ProductCard
