@@ -1,6 +1,7 @@
 import React from 'react'
 
-import { Card, Button } from 'react-bootstrap'
+import { Card } from 'react-bootstrap'
+import Rating from '../../shared/UI/Rating'
 
 const Product = ({ product }) => {
   return (
@@ -10,18 +11,19 @@ const Product = ({ product }) => {
           <Card.Img variant='top' src={product.image} />
         </a>
         <Card.Body>
-        <a href={`product/${product._id}`}>
-        <Card.Title as='div'>
-            <b>{product.name}</b>
-          </Card.Title>
-        </a>
-          
+          <a href={`product/${product._id}`} style={{ textDecoration: 'none' }}>
+            <Card.Title as='div'>
+              <b>{product.name}</b>
+            </Card.Title>
+          </a>
+
           <Card.Text as='div' className='my-3'>
-            {product.rating} from {product.numReviews} reviews
+            <Rating
+              value={product.rating}
+              text={`${product.numReviews} ratings`}
+            />
           </Card.Text>
-          <Card.Text as='h3'>
-            ${product.price}
-          </Card.Text>
+          <Card.Text as='h3'>${product.price}</Card.Text>
         </Card.Body>
       </Card>
     </>
