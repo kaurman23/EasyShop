@@ -1,3 +1,7 @@
 main{
   height: 80vh;
 }
+
+b {
+    font-weight: bold;
+}

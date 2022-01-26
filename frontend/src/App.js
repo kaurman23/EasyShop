@@ -2,6 +2,7 @@ import Footer from "./shared/components/Footer";
 import Header from "./shared/components/Header";
 
 import {Container} from 'react-bootstrap';
+import HomeScreen from "./HomePage/pages/HomeScreen";
 
 function App() {
   return (
@@ -9,7 +10,7 @@ function App() {
       <Header />
       <main className="py-3">
         <Container>
-          <h1>Welcome to EasyShop</h1>
+          <HomeScreen />
         </Container>
       </main>
       <Footer />
