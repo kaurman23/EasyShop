@@ -1,8 +1,4 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-} from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Footer from './shared/components/Footer'
 import Header from './shared/components/Header'
 import { Container } from 'react-bootstrap'
