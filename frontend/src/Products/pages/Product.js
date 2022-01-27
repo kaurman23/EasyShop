@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Row, Col, Image, ListGroup, Button, Card } from 'react-bootstrap'
 
-import products from '../../products'
 import Rating from '../../shared/UI/Rating'
 import axios from 'axios'
 
