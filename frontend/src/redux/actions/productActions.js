@@ -7,9 +7,7 @@ import {
 import axios from 'axios'
 
 export const listProducts = () => async (dispatch) => {
-    console.log("h,,,,")
   try {
-      console.log("baby")
     dispatch({ type: PRODUCT_LIST_REQUEST })
 
     const { data } = await axios.get('/api/products')

@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { Row, Col } from 'react-bootstrap'
+import { Row, Col, Alert } from 'react-bootstrap'
 import ProductCard from '../components/ProductCard'
 import { listProducts } from '../../redux/actions/productActions'
+import Loader from '../../shared/components/Loader'
 
 const HomeScreen = () => {
   const dispatch = useDispatch()
@@ -11,22 +12,27 @@ const HomeScreen = () => {
   const { products, loading, error } = productList
 
   useEffect(() => {
-    console.log("hey")
     dispatch(listProducts())
   }, [dispatch])
 
   return (
     <>
       <h1>Latest Products</h1>
-      <Row sm={12} md={4} lg={3} xl={3}>
-        {products.map((product) => {
-          return (
-            <Col key={product._id}>
-              <ProductCard product={product} />
-            </Col>
-          )
-        })}
-      </Row>
+      {loading ? (
+        <Loader />
+      ) : error ? (
+        <Alert variant='danger'>{error}</Alert>
+      ) : (
+        <Row sm={12} md={4} lg={3} xl={3}>
+          {products.map((product) => {
+            return (
+              <Col key={product._id}>
+                <ProductCard product={product} />
+              </Col>
+            )
+          })}
+        </Row>
+      )}
     </>
   )
 }
