@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Row, Col, Image, ListGroup, Button, Card, Form } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router'
 
 import Rating from '../../shared/UI/Rating'
 import Loader from '../../shared/components/Loader'
@@ -11,15 +11,15 @@ import {
   listProductDetails,
   clearProductDetails,
 } from '../../redux/actions/productActions'
+import { addItemToCart } from '../../redux/actions/cartActions'
 
 import './Product.css'
 
 const Product = () => {
   let { id } = useParams()
   const dispatch = useDispatch()
-  const navigate = useNavigate()
 
-  const [qty, setQty] = useState(0)
+  const [qty, setQty] = useState(1)
 
   const productDetails = useSelector((state) => state.productDetails)
   const { product, error, loading } = productDetails
@@ -33,7 +33,8 @@ const Product = () => {
   }, [id, dispatch])
 
   const addToCartHandler = () => {
-    navigate(`/cart/${id}?qty=${qty}`)
+    console.log(qty)
+    dispatch(addItemToCart(product._id, qty))
   }
 
   return (
@@ -47,10 +48,10 @@ const Product = () => {
         <Message variant='danger'>{error}</Message>
       ) : (
         <Row>
-          <Col className="product-page-section" md={6}>
+          <Col className='product-page-section' md={6}>
             <Image src={product.image} alt={product.name} fluid />{' '}
           </Col>
-          <Col className="product-page-section" md={3}>
+          <Col className='product-page-section' md={3}>
             <ListGroup variant='flush'>
               <ListGroup.Item>
                 <h3 className='my-3'>{product.name}</h3>
@@ -67,37 +68,44 @@ const Product = () => {
               </ListGroup.Item>
             </ListGroup>
           </Col>
-          <Col className="product-page-section" md={3}>
+          <Col className='product-page-section' md={3}>
             <Card>
               <ListGroup variant='flush'>
                 <ListGroup.Item>
                   <Row>
-                    <Col className="product-page-section">Price:</Col>
-                    <Col className="product-page-section">${product.price}</Col>
+                    <Col className='product-page-section'>Price:</Col>
+                    <Col className='product-page-section'>${product.price}</Col>
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Row>
-                    <Col className="product-page-section">Status:</Col>
-                    <Col className="product-page-section">
-                       {product.countInStock ? 'In Stock' : 'Out of stock'}
+                    <Col className='product-page-section'>Status:</Col>
+                    <Col className='product-page-section'>
+                      {product.countInStock ? 'In Stock' : 'Out of stock'}
                     </Col>
                   </Row>
                 </ListGroup.Item>
-                {product.countInStock >0 && <ListGroup.Item>
-                  <Row>
-                    <Col className="product-page-section">Qty:</Col>
-                    <Col className="product-page-section">
-                    <Form.Control  className='form-select' as='select' value={qty} onChange={(e) => setQty(e.target.value)}>
-                      {[...Array(product.countInStock).keys()].map((x => (
-                        <option key={x+1} value={x+1}>
-                          {x+1}
-                        </option>
-                      ) ))}
-                    </Form.Control>
-                    </Col>
-                  </Row>
-                  </ListGroup.Item>}
+                {product.countInStock > 0 && (
+                  <ListGroup.Item>
+                    <Row>
+                      <Col className='product-page-section'>Qty:</Col>
+                      <Col className='product-page-section'>
+                        <Form.Control
+                          className='form-select'
+                          as='select'
+                          value={qty}
+                          onChange={(e) => setQty(e.target.value)}
+                        >
+                          {[...Array(product.countInStock).keys()].map((x) => (
+                            <option key={x + 1} value={x + 1}>
+                              {x + 1}
+                            </option>
+                          ))}
+                        </Form.Control>
+                      </Col>
+                    </Row>
+                  </ListGroup.Item>
+                )}
                 <ListGroup.Item>
                   <Button
                     onClick={addToCartHandler}
