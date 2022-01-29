@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { Row, Col } from 'react-bootstrap'
 import ProductCard from '../components/ProductCard'
+import { listProducts } from '../../redux/actions/productActions'
 
 const HomeScreen = () => {
-  const [products, setProducts] = useState([])
+  const dispatch = useDispatch()
+  const productList = useSelector((state) => state.productList)
+  const { products, loading, error } = productList
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      const {data} = await axios.get('/api/products')
-      setProducts(data)
-    }
-    fetchProducts()
-  }, [])
+    console.log("hey")
+    dispatch(listProducts())
+  }, [dispatch])
 
   return (
     <>
