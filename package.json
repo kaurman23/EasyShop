@@ -24,6 +24,7 @@
     "express-async-handler": "^1.1.4",
     "http-proxy-middleware": "^2.0.2",
     "i": "^0.3.7",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.1.8",
     "nodemon": "^2.0.15",
     "npm": "^8.4.0"
