@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { addItemToCart } from '../../redux/actions/cartActions'
+import { addItemToCart, removeItemFromCart } from '../../redux/actions/cartActions'
 
 import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap'
 import Message from '../../shared/components/Message'
@@ -13,7 +13,7 @@ const Cart = (props) => {
   const { cartItems } = cart
 
   const removeItemFromCardHandler = (id) => {
-    console.log('Remove...')
+    dispatch(removeItemFromCart(id))
   }
 
   const checkoutHandler = () => {
