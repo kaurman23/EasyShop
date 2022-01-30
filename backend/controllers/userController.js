@@ -20,4 +20,8 @@ const userLogIn = asyncHandler(async (req, res) => {
     throw new Error('Invalid user email or password')
   }
 })
-export { userLogIn }
+
+const userProfile = asyncHandler(async (req, res) => {
+  res.send(req.user)
+})
+export { userLogIn, userProfile }
