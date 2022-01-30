@@ -13,11 +13,11 @@ export const loginUser = (email, password) => async (dispatch) => {
 
     const config = {
       headers: {
-        'Content-Type': 'application/josn',
+        'Content-Type': 'application/json',
       },
     }
 
-    const { data } = await axios.get(
+    const { data } = await axios.post(
       '/api/users/login',
       { email, password },
       config
@@ -28,10 +28,17 @@ export const loginUser = (email, password) => async (dispatch) => {
     localStorage.setItem('userInfo', JSON.stringify(data))
   } catch (err) {
     const error =
-      err.response && err.response.data.messsage
-        ? err.response.data.messsage
+      err.response && err.response.data.message
+        ? err.response.data.message
         : err.message
 
     dispatch({ type: USER_LOGIN_FAILURE, payload: error })
   }
+}
+
+export const logoutUser = (dispatch) => {
+  localStorage.removeItem('userInfo')
+
+  dispatch({type: USER_LOGOUT})
+  document.location.href = '/login'
 }
