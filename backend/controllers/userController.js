@@ -41,8 +41,6 @@ const registerUser = asyncHandler(async (req, res) => {
     password,
   })
 
-  console.log(user)
-
   if (user) {
     res.status(201).json({
       email,

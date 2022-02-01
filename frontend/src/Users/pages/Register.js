@@ -3,20 +3,23 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Form, Button, Row, Col } from 'react-bootstrap'
 import FormContainer from '../../shared/UI/FormContainer'
 import { useDispatch, useSelector } from 'react-redux'
-import { loginUser } from '../../redux/actions/userActions'
+import { registerUser } from '../../redux/actions/userActions'
 import Loader from '../../shared/components/Loader'
 import Message from '../../shared/components/Message'
 
-const Login = () => {
+const Register = () => {
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [message, setMessage] = useState('')
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const userLogin = useSelector((state) => state.userLogin)
+  const userRegister = useSelector((state) => state.userRegister)
 
-  const { loading, error, userInfo } = userLogin
+  const { loading, error, userInfo } = userRegister
 
   const { search } = useLocation()
 
@@ -31,15 +34,31 @@ const Login = () => {
 
   const submitHandler = (e) => {
     e.preventDefault()
-    dispatch(loginUser(email, password))
+
+    if(password !== confirmPassword){
+      setMessage("Passwords do not match")
+    } else {
+      setMessage('')
+      dispatch(registerUser(name, email, password))
+    }
   }
 
   return (
     <FormContainer>
-      <h1>Log In</h1>
+      <h1>Register</h1>
+      {message && <Message variant='danger'>{message}</Message>}
       {error && <Message variant='danger'>{error}</Message>}
       {loading && <Loader />}
       <Form onSubmit={submitHandler}>
+        <Form.Group className='my-3' controlId='name'>
+          <Form.Label>Name</Form.Label>
+          <Form.Control
+            type='name'
+            placeholder='Enter name'
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          ></Form.Control>
+        </Form.Group>
         <Form.Group className='my-3' controlId='email'>
           <Form.Label>Email Address</Form.Label>
           <Form.Control
@@ -58,6 +77,15 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           ></Form.Control>
         </Form.Group>
+        <Form.Group className='my-3' controlId='confirmPassword'>
+          <Form.Label>Confirm Password</Form.Label>
+          <Form.Control
+            type='password'
+            placeholder='Confirm password'
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          ></Form.Control>
+        </Form.Group>
         <Button className='my-3' type='submit' variant='primary'>
           Submit
         </Button>
@@ -65,9 +93,9 @@ const Login = () => {
 
       <Row className='my-3'>
         <Col>
-          New Customer?{' '}
-          <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>
-            Register
+          Have an account?{' '}
+          <Link to={redirect ? `/login?redirect=${redirect}` : '/login'}>
+            Log In
           </Link>
         </Col>
       </Row>
@@ -75,4 +103,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default Register
