@@ -18,8 +18,10 @@ const Register = () => {
   const navigate = useNavigate()
 
   const userRegister = useSelector((state) => state.userRegister)
+  const { loading, error } = userRegister
 
-  const { loading, error, userInfo } = userRegister
+  const userLogin = useSelector((state) => state.userLogin)
+  const {userInfo} = userLogin
 
   const { search } = useLocation()
 
