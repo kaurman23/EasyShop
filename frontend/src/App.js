@@ -8,6 +8,7 @@ import Cart from './Cart/pages/Cart'
 import Login from './Users/pages/Login'
 import Register from './Users/pages/Register'
 import Profile from './Users/pages/Profile'
+import Shipping from './Shipping/pages/Shipping'
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
               <Route path=':id' element={<Cart />} />
               <Route path='' element={<Cart />} />
             </Route>
+            <Route path='/shipping' element={<Shipping />} />
           </Routes>
         </Container>
       </main>

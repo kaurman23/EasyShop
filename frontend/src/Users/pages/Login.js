@@ -20,7 +20,7 @@ const Login = () => {
 
   const { search } = useLocation()
 
-  const redirect = new URLSearchParams(search).get('querystringkey')
+  const redirect = new URLSearchParams(search).get('redirect')
 
   useEffect(() => {
     if (userInfo) {

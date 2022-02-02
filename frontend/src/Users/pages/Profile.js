@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import {useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Form, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { getUserProfile, updateUserProfile } from '../../redux/actions/userActions'
+import {
+  getUserProfile,
+  updateUserProfile,
+} from '../../redux/actions/userActions'
 import Loader from '../../shared/components/Loader'
 import Message from '../../shared/components/Message'
 
@@ -17,32 +20,37 @@ const Profile = () => {
   const navigate = useNavigate()
 
   const userProfile = useSelector((state) => state.userProfile)
-  const { loading, error} = userProfile
+  const { loading, error } = userProfile
 
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
-  const userName = userInfo.name;
-  const userEmail = userInfo.email;
+  const userName = userInfo.name
+  const userEmail = userInfo.email
 
   const userUpdateProfile = useSelector((state) => state.userProfieUpdate)
-  const {success} = userUpdateProfile
+  const { success } = userUpdateProfile
 
   useEffect(() => {
-      setName(userName)
-      setEmail(userEmail)
-      setMessage('')
-      
-      dispatch(getUserProfile('profile'))
-      console.log("ok")
-  }
- , [navigate,  dispatch, userName, userEmail])
+    setName(userName)
+    setEmail(userEmail)
+    setMessage('')
+
+    dispatch(getUserProfile('profile'))
+  }, [navigate, dispatch, userName, userEmail])
 
   const submitHandler = (e) => {
     e.preventDefault()
-    if(password !== confirmPassword){
-      setMessage("Password should be same!")
-    } else{
-      dispatch(updateUserProfile({_id: userInfo._id, email: (email !== userInfo.email)? email: '',name, password} ))
+    if (password !== confirmPassword) {
+      setMessage('Password should be same!')
+    } else {
+      dispatch(
+        updateUserProfile({
+          _id: userInfo._id,
+          email: email !== userInfo.email ? email : '',
+          name,
+          password,
+        })
+      )
     }
   }
 
@@ -91,13 +99,18 @@ const Profile = () => {
               onChange={(e) => setConfirmPassword(e.target.value)}
             ></Form.Control>
           </Form.Group>
-          <Button className='my-3' type='button' variant='primary' onClick={submitHandler}>
+          <Button
+            className='my-3'
+            type='button'
+            variant='primary'
+            onClick={submitHandler}
+          >
             Update
           </Button>
         </Form>
       </Col>
       <Col md={9}>
-          <h2>Order Details</h2>
+        <h2>Order Details</h2>
       </Col>
     </Row>
   )

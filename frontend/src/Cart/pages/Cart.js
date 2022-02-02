@@ -1,13 +1,17 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { addItemToCart, removeItemFromCart } from '../../redux/actions/cartActions'
+import {
+  addItemToCart,
+  removeItemFromCart,
+} from '../../redux/actions/cartActions'
 
 import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap'
 import Message from '../../shared/components/Message'
 
 const Cart = (props) => {
   const dispatch = useDispatch()
+  let navigate = useNavigate()
 
   const cart = useSelector((state) => state.cart)
   const { cartItems } = cart
@@ -17,7 +21,7 @@ const Cart = (props) => {
   }
 
   const checkoutHandler = () => {
-      console.log("checking out")
+    navigate('/login?redirect=/shipping')
   }
 
   return (
@@ -79,12 +83,20 @@ const Cart = (props) => {
                 Subtotal ({cartItems.reduce((acc, item) => acc + item.qty, 0)})
                 items
               </h2>
-              ${cartItems.reduce((acc,item) => acc + item.qty * item.price, 0).toFixed(2)}
+              $
+              {cartItems
+                .reduce((acc, item) => acc + item.qty * item.price, 0)
+                .toFixed(2)}
             </ListGroup.Item>
             <ListGroup.Item>
-                <Button type='button' className='btn-block' disabled={cartItems.length === 0} onClick={checkoutHandler}>
-                    Proceed to checkout
-                </Button>
+              <Button
+                type='button'
+                className='btn-block'
+                disabled={cartItems.length === 0}
+                onClick={checkoutHandler}
+              >
+                Proceed to checkout
+              </Button>
             </ListGroup.Item>
           </ListGroup>
         </Card>
