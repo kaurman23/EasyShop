@@ -1,5 +1,6 @@
 import Order from '../models/orderModel.js'
 import asyncHandler from 'express-async-handler'
+import e from 'express'
 
 const createOrder = asyncHandler(async (req, res) => {
   const {
@@ -36,4 +37,15 @@ const createOrder = asyncHandler(async (req, res) => {
   res.status(201).json(createdOrder)
 })
 
-export { createOrder }
+const getOrderByID = asyncHandler(async (req, res) => {
+  const order = await Order.findById(req.params.id).populate('user','name email')
+
+  if(!order){
+    res.status(404)
+    throw new Error("Order not found")
+  } else {
+    res.json(order)
+  }
+})
+
+export { createOrder, getOrderByID }
