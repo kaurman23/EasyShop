@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ListGroup, Row, Col, Image, Card, Button } from 'react-bootstrap'
+import { ListGroup, Row, Col, Image, Card } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { PayPalButton } from 'react-paypal-button-v2'
 import { Link, useParams } from 'react-router-dom'
@@ -36,13 +36,13 @@ const Orders = () => {
     }
 
     if (!order || successPay) {
-      dispatch({type: ORDER_PAY_RESET})
+      dispatch({ type: ORDER_PAY_RESET })
       dispatch(getOrderDetails(id))
     } else if (!order.isPay) {
       if (!window.paypal) {
         addPayPalScript()
       } else {
-        console.log("okkkkk")
+        console.log('okkkkk')
         setSdkReady(true)
       }
     }
