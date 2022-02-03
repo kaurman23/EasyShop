@@ -5,6 +5,7 @@ import { Form, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { saveShippingAddress } from '../../redux/actions/cartActions'
 import CheckoutSteps from '../components/CheckoutSteps'
+import Message from '../../shared/components/Message'
 
 const Shipping = () => {
   const cart = useSelector((state) => state.cart)
@@ -14,20 +15,27 @@ const Shipping = () => {
   const [city, setCity] = useState(shippingAddress.city || '')
   const [country, setCountry] = useState(shippingAddress.country || '')
   const [postalCode, setPostalCode] = useState(shippingAddress.postalCode || '')
+  const [validationError, setValidationError] = useState(false)
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
   const submitHandler = (e) => {
     e.preventDefault()
-    dispatch(saveShippingAddress({ address, city, country, postalCode }))
-    navigate('/payments')
+    if (address && city && country && postalCode) {
+      setValidationError(false)
+      dispatch(saveShippingAddress({ address, city, country, postalCode }))
+      navigate('/payments')
+    } else {
+      setValidationError(true)
+    }
   }
 
   return (
     <FormContainer>
       <CheckoutSteps step1 step2 />
       <h1>Shipping</h1>
+      {validationError && <Message variant="danger">None of the fields can be empty!</Message>}
       <Form onSubmit={submitHandler}>
         <Form.Group className='my-3' controlId='address'>
           <Form.Label>Address</Form.Label>

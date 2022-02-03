@@ -1,0 +1,41 @@
+import {
+  CREATE_ORDER_FAILURE,
+  CREATE_ORDER_SUCCESS,
+  CREATE_ORDER_REQUEST,
+} from '../constants/orderConstants'
+import axios from 'axios'
+
+export const createOrder = (order) => async (dispatch, getState) => {
+  console.log(order)
+  try {
+    dispatch({
+      type: CREATE_ORDER_REQUEST,
+    })
+
+    const {
+      userLogin: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+
+    const { data } = await axios.post(`/api/orders`, order, config)
+
+    dispatch({
+      type: CREATE_ORDER_SUCCESS,
+      payload: data,
+    })
+
+  } catch (err) {
+    const error =
+    err.response && err.response.data.message
+      ? err.response.data.message
+      : err.message
+
+  dispatch({ type: CREATE_ORDER_FAILURE, payload: error })
+  }
+}

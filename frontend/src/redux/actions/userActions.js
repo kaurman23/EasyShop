@@ -89,8 +89,6 @@ export const getUserProfile = (id) => async (dispatch, getState) => {
 
     const { userLogin: {userInfo}} = getState()
 
-    console.log(userInfo.token)
-
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -102,8 +100,7 @@ export const getUserProfile = (id) => async (dispatch, getState) => {
       `/api/users/${id}`,
       config
     )
-    
-    console.log(data)
+  
 
     dispatch({ type: USER_PROFILE_SUCCESS })
 
