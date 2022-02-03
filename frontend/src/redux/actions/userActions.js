@@ -12,7 +12,10 @@ import {
   USER_PROFILE_UPDATE_FAILURE,
   USER_PROFILE_UPDATE_REQUEST,
   USER_PROFILE_UPDATE_SUCCESS,
+  USER_PROFILE_RESET,
 } from '../constants/userConstants'
+
+import { USER_ORDER_LIST_RESET } from '../constants/orderConstants'
 
 import axios from 'axios'
 
@@ -47,8 +50,12 @@ export const loginUser = (email, password) => async (dispatch) => {
 
 export const logoutUser = (dispatch) => {
   localStorage.removeItem('userInfo')
+  localStorage.removeItem('cartItems')
 
+  dispatch({type: USER_PROFILE_RESET})
+  dispatch({type: USER_ORDER_LIST_RESET})
   dispatch({ type: USER_LOGOUT })
+
   document.location.href = '/login'
 }
 

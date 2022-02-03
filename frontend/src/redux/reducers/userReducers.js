@@ -9,9 +9,10 @@ import {
   USER_PROFILE_FAILURE,
   USER_PROFILE_SUCCESS,
   USER_PROFILE_REQUEST,
+  USER_PROFILE_RESET,
   USER_PROFILE_UPDATE_FAILURE,
   USER_PROFILE_UPDATE_REQUEST,
-  USER_PROFILE_UPDATE_SUCCESS
+  USER_PROFILE_UPDATE_SUCCESS,
 } from '../constants/userConstants'
 
 export const userLoginReducer = (state = {}, action) => {
@@ -22,6 +23,8 @@ export const userLoginReducer = (state = {}, action) => {
       return { loading: false, userInfo: action.payload }
     case USER_LOGIN_FAILURE:
       return { loading: false, error: action.payload }
+    case USER_PROFILE_RESET:
+      return { userInfo: {}}
     case USER_LOGOUT:
       return {}
     default:
