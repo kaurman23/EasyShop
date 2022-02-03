@@ -9,6 +9,7 @@ import Login from './Users/pages/Login'
 import Register from './Users/pages/Register'
 import Profile from './Users/pages/Profile'
 import Shipping from './Shipping/pages/Shipping'
+import PaymentMethod from './Shipping/pages/PaymentMethod'
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
               <Route path='' element={<Cart />} />
             </Route>
             <Route path='/shipping' element={<Shipping />} />
+            <Route path='/payments' element={<PaymentMethod />} />
           </Routes>
         </Container>
       </main>
