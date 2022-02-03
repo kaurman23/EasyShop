@@ -11,6 +11,7 @@ import Profile from './Users/pages/Profile'
 import Shipping from './Shipping/pages/Shipping'
 import PaymentMethod from './Shipping/pages/PaymentMethod'
 import PlaceOrder from './Shipping/pages/PlaceOrder'
+import Orders from './Shipping/pages/Orders'
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
             <Route path='/shipping' element={<Shipping />} />
             <Route path='/payments' element={<PaymentMethod />} />
             <Route path='/placeorder' element={<PlaceOrder />} />
+            <Route path='/orders/:id' element={<Orders />} />
           </Routes>
         </Container>
       </main>
