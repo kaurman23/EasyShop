@@ -1,3 +1,4 @@
+import { USER_ORDER_LIST_RESET } from '../constants/orderConstants'
 import {
   USER_LOGIN_FAILURE,
   USER_LOGIN_REQUEST,
@@ -13,6 +14,10 @@ import {
   USER_PROFILE_UPDATE_FAILURE,
   USER_PROFILE_UPDATE_REQUEST,
   USER_PROFILE_UPDATE_SUCCESS,
+  USER_LIST_FAILURE,
+  USER_LIST_REQUEST,
+  USER_LIST_SUCCESS,
+  USER_LIST_RESET
 } from '../constants/userConstants'
 
 export const userLoginReducer = (state = {}, action) => {
@@ -24,7 +29,7 @@ export const userLoginReducer = (state = {}, action) => {
     case USER_LOGIN_FAILURE:
       return { loading: false, error: action.payload }
     case USER_PROFILE_RESET:
-      return { userInfo: {}}
+      return { userInfo: {} }
     case USER_LOGOUT:
       return {}
     default:
@@ -45,12 +50,12 @@ export const userRegisterReducer = (state = {}, action) => {
   }
 }
 
-export const userProfileReducer = (state = { }, action) => {
+export const userProfileReducer = (state = {}, action) => {
   switch (action.type) {
     case USER_PROFILE_REQUEST:
       return { ...state, loading: true }
     case USER_PROFILE_SUCCESS:
-      return { loading: false}
+      return { loading: false }
     case USER_PROFILE_FAILURE:
       return { loading: false, error: action.payload }
     default:
@@ -58,14 +63,29 @@ export const userProfileReducer = (state = { }, action) => {
   }
 }
 
-export const userProfileUpdateReducer = (state = { userInfo: {}}, action) => {
+export const userProfileUpdateReducer = (state = { userInfo: {} }, action) => {
   switch (action.type) {
     case USER_PROFILE_UPDATE_REQUEST:
       return { ...state, loading: true }
     case USER_PROFILE_UPDATE_SUCCESS:
-      return { loading: false, success: true}
+      return { loading: false, success: true }
     case USER_PROFILE_UPDATE_FAILURE:
       return { loading: false, error: action.payload }
+    default:
+      return state
+  }
+}
+
+export const userListReducer = (state = { users: [] }, action) => {
+  switch (action.type) {
+    case USER_LIST_REQUEST:
+      return { loading: true }
+    case USER_LIST_SUCCESS:
+      return { loading: false, users: action.payload }
+    case USER_LIST_FAILURE:
+      return { loading: false, error: action.payload }
+    case USER_LIST_RESET: 
+      return { users: []}
     default:
       return state
   }
