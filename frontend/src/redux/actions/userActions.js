@@ -16,6 +16,10 @@ import {
   USER_LIST_FAILURE,
   USER_LIST_REQUEST,
   USER_LIST_SUCCESS,
+  USER_LIST_RESET,
+  USER_DELETE_REQUEST,
+  USER_DELETE_SUCCESS,
+  USER_DELETE_FAILURE,
 } from '../constants/userConstants'
 
 import { USER_ORDER_LIST_RESET } from '../constants/orderConstants'
@@ -185,6 +189,35 @@ export const getListOfUsers = () => async (dispatch, getState) => {
   }
 }
 
-export  const clearListOfUser = () => async (dispatch, getState) => {
-  dispatch()
+export  const clearListOfUser = () => async (dispatch) => {
+  dispatch({
+    type: USER_LIST_RESET
+  })
+}
+
+export const deleteUser = (id) => async (dispatch,getState) => {
+  try {
+    dispatch({ type: USER_DELETE_REQUEST })
+
+    const {
+      userLogin: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+
+    await axios.delete(`/api/users/${id}`, config)
+
+    dispatch({ type: USER_DELETE_SUCCESS})
+  } catch (err) {
+    const error =
+      err.response && err.response.data.message
+        ? err.response.data.message
+        : err.message
+
+    dispatch({ type: USER_DELETE_FAILURE, payload: error })
+  }
 }

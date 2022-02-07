@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getListOfUsers, clearListOfUser } from '../../redux/actions/userActions'
+import { getListOfUsers, clearListOfUser, deleteUser } from '../../redux/actions/userActions'
 import Loader from '../../shared/components/Loader'
 import Message from '../../shared/components/Message'
 import { Table, Button } from 'react-bootstrap'
@@ -16,6 +16,9 @@ const UsersList = () => {
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
 
+  const userDelete = useSelector((state) => state.userDelete)
+  const { success: successDelete } = userDelete
+
   useEffect(() => {
       if(userInfo && userInfo.isAdmin){
         dispatch(getListOfUsers())
@@ -27,10 +30,10 @@ const UsersList = () => {
     return () => {
         dispatch(clearListOfUser())
       }
-  }, [dispatch, userInfo, navigate])
+  }, [dispatch, userInfo, navigate, successDelete])
 
-  const deleteHandler = () => {
-      console.log("deleting...")
+  const deleteHandler = (userID) => {
+      dispatch(deleteUser(userID))
   }
   return (
     <>
@@ -71,7 +74,7 @@ const UsersList = () => {
                         <i className="fas fa-edit"></i>
                       </Button>
                     </Link>
-                <Button className='btn-sm' variant='danger' onClick={() => deleteHandler(user._id)}>
+                <Button className='btn-sm' variant='danger' disabled={userInfo._id === user._id} onClick={() => deleteHandler(user._id)}>
                 <i className="fas fa-trash"></i>
                 </Button>
                 </td>
