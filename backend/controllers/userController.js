@@ -119,4 +119,56 @@ const deleteUser = asyncHandler(async (req, res) => {
   }
 })
 
-export { userLogIn, userProfile, registerUser, updateUserProfile, getUsers, deleteUser }
+const getUserByID = asyncHandler(async (req, res) => {
+  const user = await User.findById({ _id: req.params.id }).select('-password')
+
+  if (user) {
+    res.json(user)
+  } else {
+    res.status(400)
+    throw new Error('User not found')
+  }
+})
+
+const updateUser = asyncHandler(async (req, res) => {
+  const user = await User.findById({ _id: req.params.id })
+
+  if (user) {
+    user.name = req.body.name || user.name
+    if (req.body.email!==user.email) {
+      const userExists = await User.findOne({ email: req.body.email })
+      if (userExists) {
+        res.status(400)
+        throw new Error('User with this email already exists')
+      } else {
+        user.email = req.body.email
+      }
+    }
+    user.email = req.body.email || user.email
+    user.isAdmin = req.body.isAdmin
+
+    const updatedUser = await user.save()
+
+    res.status(200)
+    res.json({
+      email: updatedUser.email,
+      name: updatedUser.name,
+      _id: updatedUser._id,
+      isAdmin: updatedUser.isAdmin,
+    })
+  } else {
+    res.status(401)
+    throw new Error('There was an error updating user')
+  }
+})
+
+export {
+  userLogIn,
+  userProfile,
+  registerUser,
+  updateUserProfile,
+  getUsers,
+  deleteUser,
+  getUserByID,
+  updateUser
+}
