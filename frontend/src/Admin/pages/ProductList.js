@@ -4,7 +4,8 @@ import Loader from '../../shared/components/Loader'
 import Message from '../../shared/components/Message'
 import { Table, Button, Row, Col } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
-import { deleteProduct, listProducts } from '../../redux/actions/productActions'
+import { deleteProduct, listProducts, createProduct } from '../../redux/actions/productActions'
+import { PRODUCT_CREATE_RESET } from '../../redux/constants/productConstants'
 
 const ProductList = () => {
   const dispatch = useDispatch()
@@ -23,19 +24,34 @@ const ProductList = () => {
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
 
+  const productCreate = useSelector((state) => state.productCreate)
+  const {
+    loading: createLoading,
+    error: createError,
+    success: createSuccess,
+    product: createdProduct
+  } = productCreate
+
   useEffect(() => {
-    if (userInfo && userInfo.isAdmin) {
-      dispatch(listProducts())
-    } else {
+    dispatch({type: PRODUCT_CREATE_RESET})
+    if (!userInfo.isAdmin) {
       navigate('/login')
     }
-  }, [dispatch, userInfo, navigate, deleteSuccess])
+
+    if(createSuccess){
+      navigate(`/admin/product/${createdProduct._id}/edit`)
+    } else {
+      dispatch(listProducts())
+    }
+  }, [dispatch, userInfo, navigate, deleteSuccess, createSuccess, createdProduct])
 
   const deleteHandler = (id) => {
     dispatch(deleteProduct(id))
   }
 
-  const createProductHandler = () => {}
+  const createProductHandler = () => {
+    dispatch(createProduct())
+  }
 
   return (
     <>
@@ -51,6 +67,8 @@ const ProductList = () => {
       </Row>
       {deleteLoading && <Loader />}
       {deleteError && <Message variant='danger'>{deleteError}</Message>}
+      {createLoading && <Loader />}
+      {createError && <Message variant='danger'>{createError}</Message>}
       {loading ? (
         <Loader />
       ) : error ? (
@@ -76,7 +94,7 @@ const ProductList = () => {
                 <td>{product.category}</td>
                 <td>{product.brand}</td>
                 <td>
-                  <Link to={`/admin/user/${product._id}/edit`}>
+                  <Link to={`/admin/product/${product._id}/edit`}>
                     <Button className='btn-sm' variant='light'>
                       <i className='fas fa-edit'></i>
                     </Button>
