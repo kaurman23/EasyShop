@@ -11,6 +11,9 @@ import {
   USER_ORDER_LIST_FAILURE,
   USER_ORDER_LIST_REQUEST,
   USER_ORDER_LIST_SUCCESS,
+  LIST_ORDERS_REQUEST,
+  LIST_ORDERS_SUCCESS,
+  LIST_ORDERS_FAILURE
 } from '../constants/orderConstants'
 import axios from 'axios'
 
@@ -32,6 +35,8 @@ export const createOrder = (order) => async (dispatch, getState) => {
     }
 
     const { data } = await axios.post(`/api/orders`, order, config)
+
+    console.log(data)
 
     dispatch({
       type: CREATE_ORDER_SUCCESS,
@@ -149,3 +154,36 @@ export const listUserOrders = () => async (dispatch, getState) => {
     dispatch({ type: USER_ORDER_LIST_FAILURE, payload: error })
   }
 }
+
+export const listOrders = () => async (dispatch, getState) => {
+  dispatch({
+    type: LIST_ORDERS_REQUEST,
+  })
+
+  try {
+    const {
+      userLogin: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+
+    const { data } = await axios.get(`/api/orders`, config)
+
+    dispatch({
+      type: LIST_ORDERS_SUCCESS,
+      payload: data,
+    })
+  } catch (err) {
+    const error =
+      err.response && err.response.data.message
+        ? err.response.data.message
+        : err.message
+
+    dispatch({ type: LIST_ORDERS_FAILURE, payload: error })
+  }
+}
+

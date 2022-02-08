@@ -29,7 +29,6 @@ const Orders = () => {
       script.src = `https://www.paypal.com/sdk/js?client-id=${clientID}`
       script.async = true
       script.onload = () => {
-        console.log('hey')
         setSdkReady(true)
       }
       document.body.appendChild(script)
@@ -42,7 +41,6 @@ const Orders = () => {
       if (!window.paypal) {
         addPayPalScript()
       } else {
-        console.log('okkkkk')
         setSdkReady(true)
       }
     }

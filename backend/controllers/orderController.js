@@ -1,6 +1,5 @@
 import Order from '../models/orderModel.js'
 import asyncHandler from 'express-async-handler'
-import e from 'express'
 
 const createOrder = asyncHandler(async (req, res) => {
   const {
@@ -12,6 +11,7 @@ const createOrder = asyncHandler(async (req, res) => {
     shippingPrice,
     totalPrice,
   } = req.body
+
 
   if (orderItems && orderItems.length === 0) {
     res.status(400)
@@ -29,6 +29,7 @@ const createOrder = asyncHandler(async (req, res) => {
     totalPrice,
   })
 
+  console.log(order)
   const createdOrder = await order.save()
 
   res.status(201).json(createdOrder)
@@ -74,4 +75,9 @@ const getMyOrders = asyncHandler(async (req, res) => {
   res.json(orders)
 })
 
-export { createOrder, getOrderByID, updateOrderToPaid, getMyOrders }
+const getOrders = asyncHandler(async (req, res) => {
+  const orders = await Order.find({}).populate('user','id name')
+  res.json(orders)
+})
+
+export { createOrder, getOrderByID, updateOrderToPaid, getMyOrders, getOrders }

@@ -28,11 +28,11 @@ const PlaceOrder = () => {
 
   const createOrder = useSelector(state => state.createOrder)
   const {success, order, error} = createOrder
-  const orderId = (order && order.order._id)? order.order._id: null;
+  const orderId = (order && order._id)? order._id: null;
 
   useEffect(() => {
     if(success){
-      navigate(`/order/${orderId}`)
+      navigate(`/orders/${orderId}`)
     }
   } , [success, navigate, orderId])
 
