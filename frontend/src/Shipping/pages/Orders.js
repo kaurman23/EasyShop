@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { ListGroup, Row, Col, Image, Card, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { PayPalButton } from 'react-paypal-button-v2'
-import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import Message from '../../shared/components/Message'
 import Loader from '../../shared/components/Loader'
 import {

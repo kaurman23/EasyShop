@@ -12,7 +12,6 @@ const createOrder = asyncHandler(async (req, res) => {
     totalPrice,
   } = req.body
 
-
   if (orderItems && orderItems.length === 0) {
     res.status(400)
     throw new Error('Orders cannot be empty.')
@@ -28,8 +27,6 @@ const createOrder = asyncHandler(async (req, res) => {
     shippingPrice,
     totalPrice,
   })
-
-  console.log(order)
   const createdOrder = await order.save()
 
   res.status(201).json(createdOrder)
@@ -76,7 +73,7 @@ const getMyOrders = asyncHandler(async (req, res) => {
 })
 
 const getOrders = asyncHandler(async (req, res) => {
-  const orders = await Order.find({}).populate('user','id name')
+  const orders = await Order.find({}).populate('user', 'id name')
   res.json(orders)
 })
 
@@ -94,4 +91,11 @@ const updateOrderToDelivered = asyncHandler(async (req, res) => {
   }
 })
 
-export { createOrder, getOrderByID, updateOrderToPaid, getMyOrders, getOrders, updateOrderToDelivered }
+export {
+  createOrder,
+  getOrderByID,
+  updateOrderToPaid,
+  getMyOrders,
+  getOrders,
+  updateOrderToDelivered,
+}

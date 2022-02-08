@@ -39,8 +39,6 @@ export const createOrder = (order) => async (dispatch, getState) => {
 
     const { data } = await axios.post(`/api/orders`, order, config)
 
-    console.log(data)
-
     dispatch({
       type: CREATE_ORDER_SUCCESS,
       payload: data,
@@ -190,7 +188,7 @@ export const listOrders = () => async (dispatch, getState) => {
   }
 }
 
-export const deliverOrder = (order) => async (dispatch,getState) => {
+export const deliverOrder = (order) => async (dispatch, getState) => {
   dispatch({
     type: ORDER_DELIVER_REQUEST,
   })
@@ -206,7 +204,11 @@ export const deliverOrder = (order) => async (dispatch,getState) => {
       },
     }
 
-    const { data } = await axios.put(`/api/orders/${order._id}/setDelivered`,{}, config)
+    const { data } = await axios.put(
+      `/api/orders/${order._id}/setDelivered`,
+      {},
+      config
+    )
 
     dispatch({
       type: ORDER_DELIVER_SUCCESS,
@@ -221,4 +223,3 @@ export const deliverOrder = (order) => async (dispatch,getState) => {
     dispatch({ type: ORDER_DELIVER_FAILURE, payload: error })
   }
 }
-
