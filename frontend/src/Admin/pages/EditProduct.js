@@ -3,9 +3,10 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Form, Button } from 'react-bootstrap'
 import FormContainer from '../../shared/UI/FormContainer'
 import { useDispatch, useSelector } from 'react-redux'
-import { listProductDetails } from '../../redux/actions/productActions'
+import { listProductDetails, updateProductDetails} from '../../redux/actions/productActions'
 import Loader from '../../shared/components/Loader'
 import Message from '../../shared/components/Message'
+import { PRODUCT_DETAIL_UPDATE_RESET, CLEAR_PRODUCT_DETAILS } from '../../redux/constants/productConstants'
 
 const EditProduct = () => {
   const [name, setName] = useState('')
@@ -24,22 +25,33 @@ const EditProduct = () => {
   const productDetails = useSelector((state) => state.productDetails)
   const { loading, error, product } = productDetails
 
-  useEffect(() => {      
-    if ((!product.name || product._id !== id)) {
-      dispatch(listProductDetails(id))
-    } else {
-      setName(product.name)
-      setImage(product.image)
-      setPrice(product.price)
-      setBrand(product.brand)
-      setCategory(product.category)
-      setCountInStock(product.countInStock)
-      setDescription(product.description)
+  const productDetailUpdate = useSelector((state) => state.productDetailUpdate)
+  const { loading: updateLoading, error: updateError, success: updateSuccess } = productDetailUpdate
+
+  useEffect(() => {  
+    if(updateSuccess){
+      dispatch({ type: PRODUCT_DETAIL_UPDATE_RESET})
+      dispatch({ type: CLEAR_PRODUCT_DETAILS})
+      navigate('/admin/productlist')
+    }  else {
+      if ((!product.name || product._id !== id)) {
+        dispatch(listProductDetails(id))
+      } else {
+        setName(product.name)
+        setImage(product.image)
+        setPrice(product.price)
+        setBrand(product.brand)
+        setCategory(product.category)
+        setCountInStock(product.countInStock)
+        setDescription(product.description)
+      }
     }
-  }, [dispatch, product, id, navigate])
+    
+  }, [dispatch, product, id, navigate, updateSuccess])
 
   const submitHandler = (e) => {
     e.preventDefault()
+    dispatch(updateProductDetails({_id: id,name, price, image, description, category, brand, countInStock}))
   }
 
   return (
@@ -49,6 +61,8 @@ const EditProduct = () => {
       </Link>
       <FormContainer>
         <h1>Edit User</h1>
+        {updateLoading && <Loader />}
+        {updateError && <Message variant='danger'>{updateError}</Message>}
         {loading ? (
           <Loader />
         ) : error ? (
