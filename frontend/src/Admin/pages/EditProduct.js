@@ -104,7 +104,7 @@ const EditProduct = () => {
         <b>Go back</b>
       </Link>
       <FormContainer>
-        <h1>Edit User</h1>
+        <h1>Edit Product</h1>
         {updateLoading && <Loader />}
         {updateError && <Message variant='danger'>{updateError}</Message>}
         {loading ? (
