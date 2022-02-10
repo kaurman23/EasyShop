@@ -37,7 +37,6 @@ const Orders = () => {
   const { userInfo } = userLogin
 
   if (!loading) {
-    console.log(order)
     //   Calculate prices
     const addDecimals = (num) => {
       return (Math.round(num * 100) / 100).toFixed(2)
@@ -79,7 +78,6 @@ const Orders = () => {
   }, [dispatch, id, successPay, successDeliver, order, navigate,userInfo])
 
   const successPaymentHandler = (paymentResult) => {
-    console.log(paymentResult)
     dispatch(payOrder(id, paymentResult))
   }
 
