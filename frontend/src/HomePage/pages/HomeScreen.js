@@ -8,6 +8,7 @@ import Loader from '../../shared/components/Loader'
 import Message from '../../shared/components/Message'
 import { useParams } from 'react-router-dom'
 import Paginate from '../../shared/components/Paginate'
+import ProductCarousel from '../../shared/components/ProductCarousel'
 
 const HomeScreen = () => {
   const { keyword } = useParams()
@@ -25,7 +26,8 @@ const HomeScreen = () => {
 
   return (
     <>
-      <h1>Latest Products</h1>
+      {!keyword && <ProductCarousel />}
+      <h1 className='my-3'>Latest Products</h1>
       {loading ? (
         <Loader />
       ) : error ? (
