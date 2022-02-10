@@ -15,7 +15,6 @@ const Login = () => {
   const navigate = useNavigate()
 
   const userLogin = useSelector((state) => state.userLogin)
-
   const { loading, error, userInfo } = userLogin
 
   const { search } = useLocation()
