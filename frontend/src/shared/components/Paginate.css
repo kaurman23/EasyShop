@@ -1,0 +1,12 @@
+.paginate{
+    margin: 0.5rem;
+    text-decoration: none;
+    border: 1px solid #dee2e6;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    padding: 0.5rem;
+}
+
+.active-paginate{
+    background-color: black;
+    color: white
+}

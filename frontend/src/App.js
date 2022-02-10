@@ -27,6 +27,8 @@ function App() {
           <Routes>
             <Route path='/' element={<HomeScreen />} />
             <Route path='/search/:keyword' element={<HomeScreen />} />
+            <Route path='/page/:pageNumber' element={<HomeScreen />} />
+            <Route path='/search/:keyword/page/:pageNumber' element={<HomeScreen />} />
             <Route path='/product/:id' element={<Product />} />
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
@@ -42,6 +44,7 @@ function App() {
             <Route path='/admin/userlist' element={<UsersList />} />
             <Route path='/admin/user/:id/edit' element={<EditUser />} />
             <Route path='/admin/productlist' element={<ProductList />} />
+            <Route path='/admin/productlist/:pageNumber' element={<ProductList />} />
             <Route path='/admin/product/:id/edit' element={<EditProduct />} />
             <Route path='/admin/orderlist' element={<OrdersList />} />
           </Routes>

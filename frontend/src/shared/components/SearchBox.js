@@ -19,7 +19,7 @@ const SearchBox = () => {
       <Form.Control
         type='text'
         name='q'
-        placeHolder='Search Products'
+        placeholder='Search Products'
         className='mr-sm-2 ml-sm-5'
         onChange={(e) => setKeyword(e.target.value)}
       ></Form.Control>
