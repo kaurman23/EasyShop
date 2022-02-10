@@ -27,7 +27,7 @@ const HomeScreen = () => {
         <Row sm={12} md={4} lg={3} xl={3}>
           {products.map((product) => {
             return (
-              <Col key={product._id}>
+              <Col className='align-items-stretch d-flex' key={product._id}>
                 <ProductCard product={product} />
               </Col>
             )

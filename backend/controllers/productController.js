@@ -49,28 +49,21 @@ const createProduct = asyncHandler(async (req, res) => {
 })
 
 const updateProduct = asyncHandler(async (req, res) => {
-  const {
-    name,
-    price,
-    image,
-    brand,
-    category,
-    countInStock,
-    description,
-  } = req.body
+  const { name, price, image, brand, category, countInStock, description } =
+    req.body
 
   const product = await Product.findById(req.params.id)
 
-  if(product){
-    product.name = name ?? product.name;
-    product.price = price ?? product.price;
-    product.description = description ?? product.description;
-    product.image = image ?? product.image;
-    product.brand = brand ?? product.brand;
-    product.category = category ?? product.category;
-    product.countInStock = countInStock ?? product.countInStock;
- 
-    const updatedProduct = await product.save();
+  if (product) {
+    product.name = name ?? product.name
+    product.price = price ?? product.price
+    product.description = description ?? product.description
+    product.image = image ?? product.image
+    product.brand = brand ?? product.brand
+    product.category = category ?? product.category
+    product.countInStock = countInStock ?? product.countInStock
+
+    const updatedProduct = await product.save()
     res.json(updatedProduct)
   } else {
     res.status(404)
@@ -78,4 +71,45 @@ const updateProduct = asyncHandler(async (req, res) => {
   }
 })
 
-export { getAllProducts, getProductByID, deleteProduct, createProduct, updateProduct }
+const createProductReview = asyncHandler(async (req, res) => {
+  const { rating, comment } = req.body
+  const product = await Product.findById(req.params.id)
+
+  if (product) {
+    const alreadyReviewed = await product.reviews.find(
+      (r) => r.user.toString() === req.user._id.toString()
+    )
+
+    if (alreadyReviewed) {
+      res.status(400)
+      throw new Error('Product already reviewed!')
+    }
+
+    const newReview = {
+      rating: Number(rating),
+      name: req.user.name,
+      comment,
+      user: req.user._id,
+    }
+
+    product.reviews.push(newReview)
+    product.numReviews = product.reviews.length
+    product.rating =
+      product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+      product.reviews.length
+    await product.save()
+    res.status(201).json({ message: 'Review Created' })
+  } else {
+    res.status(404)
+    throw new Error('Product not found')
+  }
+})
+
+export {
+  getAllProducts,
+  getProductByID,
+  deleteProduct,
+  createProduct,
+  updateProduct,
+  createProductReview
+}
