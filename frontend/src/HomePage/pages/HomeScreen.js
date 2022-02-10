@@ -6,15 +6,17 @@ import ProductCard from '../components/ProductCard'
 import { listProducts } from '../../redux/actions/productActions'
 import Loader from '../../shared/components/Loader'
 import Message from '../../shared/components/Message'
+import { useParams } from 'react-router-dom'
 
 const HomeScreen = () => {
+  const {keyword} = useParams()
   const dispatch = useDispatch()
   const productList = useSelector((state) => state.productList)
   const { products, loading, error } = productList
 
   useEffect(() => {
-    dispatch(listProducts())
-  }, [dispatch])
+    dispatch(listProducts(keyword))
+  }, [dispatch, keyword])
 
   return (
     <>
