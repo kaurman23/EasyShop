@@ -5,6 +5,7 @@ import {
   ORDER_DETAILS_REQUEST,
   ORDER_DETAILS_SUCCESS,
   ORDER_DETAILS_FAILURE,
+  ORDER_DETAILS_RESET,
   ORDER_PAY_FAILURE,
   ORDER_PAY_REQUEST,
   ORDER_PAY_RESET,
@@ -47,6 +48,8 @@ export const orderDetailsReducer = (
       return { loading: false, order: action.payload }
     case ORDER_DETAILS_FAILURE:
       return { loading: false, error: action.payload }
+    case ORDER_DETAILS_RESET:
+      return {loading: false, orderItems: [], shippingAddress : {}}
     default:
       return state
   }

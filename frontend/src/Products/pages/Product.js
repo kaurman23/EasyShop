@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Row, Col, Image, ListGroup, Button, Card, Form } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-
+import Meta from '../../shared/components/Meta'
 import Rating from '../../shared/UI/Rating'
 import Loader from '../../shared/components/Loader'
 import Message from '../../shared/components/Message'
@@ -13,6 +13,7 @@ import {
 import { addItemToCart } from '../../redux/actions/cartActions'
 import { createProductReview } from '../../redux/actions/productActions'
 import { PRODUCT_REVIEW_CREATE_RESET } from '../../redux/constants/productConstants'
+import { CART_ADD_SUCCESS_ITEM_REMOVE } from '../../redux/constants/cartConstants'
 
 import './Product.css'
 
@@ -26,6 +27,9 @@ const Product = () => {
 
   const productDetails = useSelector((state) => state.productDetails)
   const { product, error, loading } = productDetails
+
+  const cart = useSelector((state) => state.cart)
+  const { success: addToCartSuccess } = cart
 
   const productReviewCreate = useSelector((state) => state.productReviewCreate)
   const {
@@ -44,12 +48,13 @@ const Product = () => {
       setComment('')
       dispatch({ type: PRODUCT_REVIEW_CREATE_RESET })
     }
-    
+
     dispatch(listProductDetails(id))
 
     return () => {
       dispatch({ type: PRODUCT_REVIEW_CREATE_RESET })
       dispatch(clearProductDetails())
+      dispatch({ type: CART_ADD_SUCCESS_ITEM_REMOVE })
     }
   }, [id, dispatch, productReviewSuccess])
 
@@ -73,6 +78,7 @@ const Product = () => {
         <Message variant='danger'>{error}</Message>
       ) : (
         <>
+          <Meta title={product.name} />
           <Row>
             <Col className='product-page-section' md={6}>
               <Image src={product.image} alt={product.name} fluid />{' '}
@@ -136,6 +142,11 @@ const Product = () => {
                       </Row>
                     </ListGroup.Item>
                   )}
+                  {addToCartSuccess && (
+                    <ListGroup.Item>
+                      <Message variant='success'>Added to cart!</Message>
+                    </ListGroup.Item>
+                  )}
                   <ListGroup.Item>
                     <Button
                       onClick={addToCartHandler}
@@ -196,7 +207,7 @@ const Product = () => {
                           row='3'
                           onChange={(e) => setComment(e.target.value)}
                         ></Form.Control>
-                        <Button type='submit' variant='primary'>
+                        <Button type='submit' variant='primary' className='my-3'>
                           Submit
                         </Button>
                       </Form.Group>

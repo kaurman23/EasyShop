@@ -3,6 +3,7 @@ import {
   CART_REMOVE_ITEM,
   CART_SAVE_SHIPPING_ADDRESS,
   CART_SAVE_PAYMENT_METHOD,
+  CART_ADD_SUCCESS_ITEM_REMOVE
 } from '../constants/cartConstants'
 
 //MAYBE REFACTOR THIS LATER?
@@ -21,6 +22,7 @@ export const cartReducer = (
       if (existingItem) {
         return {
           ...state,
+          success: true,
           cartItems: state.cartItems.map((cartItem) =>
             cartItem.product === newItem.product ? newItem : cartItem
           ),
@@ -28,6 +30,7 @@ export const cartReducer = (
       } else {
         return {
           ...state,
+          success: true,
           cartItems: [...state.cartItems, newItem],
         }
       }
@@ -48,7 +51,11 @@ export const cartReducer = (
         ...state,
         paymentMethod: action.payload
       }
-
+    case CART_ADD_SUCCESS_ITEM_REMOVE:
+      return {
+        ...state,
+        success: false
+      }
     default:
       return state
   }

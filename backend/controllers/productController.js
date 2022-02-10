@@ -2,7 +2,7 @@ import Product from '../models/productModel.js'
 import asyncHandler from 'express-async-handler'
 
 const getAllProducts = asyncHandler(async (req, res) => {
-  const pageSize = 2
+  const pageSize = 8
   const page = Number(req.query.pageNumber) || 1
   const keyword = req.query.keyword
     ? {
